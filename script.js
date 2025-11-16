@@ -1,16 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("script.js loaded ✔");
 
-    // SAFE ELEMENT GETTER
-    function get(id) {
-        return document.getElementById(id) || null;
-    }
-
     const priceElements = {
-        bitcoin: get("btc-price"),
-        ethereum: get("eth-price"),
-        solana: get("sol-price"),
-        binancecoin: get("bnb-price")
+        bitcoin: document.getElementById("btc-price"),
+        ethereum: document.getElementById("eth-price"),
+        solana: document.getElementById("sol-price"),
+        binancecoin: document.getElementById("bnb-price")
     };
 
     const fallback = {
@@ -26,8 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function loadPrices() {
-        const url =
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd";
+        const url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd";
 
         try {
             const res = await fetch(url);
