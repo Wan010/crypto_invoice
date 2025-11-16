@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Generator – Normal Payments | CryptoInvoicePro</title>
+
+  <link rel="stylesheet" href="neon-theme.css">
+  <link rel="stylesheet" href="style.css"> <!-- optional extra CSS -->
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div>
+    <div class="brand">
+      <img src="assets/logos/logo.png" class="logo" alt="">
+      <h1>CryptoInvoicePro</h1>
+    </div>
+    <nav class="nav">
+      <a class="nav-link" href="index.html"><span class="icon">🏠</span>Home</a>
+      <a class="nav-link active" href="invoice-normal.html"><span class="icon">🧾</span>Normal Invoice</a>
+      <a class="nav-link" href="invoice-crypto.html"><span class="icon">💠</span>Crypto Invoice</a>
+      <a class="nav-link" href="dashboard.html"><span class="icon">📊</span>Dashboard</a>
+      <a class="nav-link" href="learn-crypto.html"><span class="icon">⚡</span>Learn Crypto</a>
+      <a class="nav-link" href="profile.html"><span class="icon">👤</span>Profile</a>
+    </nav>
+  </div>
+  <footer class="foot small">&copy; 2025 CryptoInvoicePro</footer>
+</aside>
+
+<!-- Main -->
+<main class="main">
+
+  <div class="topbar">
+    <div class="top-left">
+      <button class="icon-btn">🌙</button>
+      <div class="ticker">
+        <span class="ticker-item" id="btcTicker">BTC: Loading...</span>
+        <span class="ticker-item" id="ethTicker">ETH: Loading...</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-family:'Space Grotesk';margin-top:0">Normal Invoice Generator</h2>
+  <p class="muted">Generate standard invoices with neon UI + PDF export</p>
+
+  <!-- Page Wrapper -->
+  <div class="page">
+
+    <!-- ROW 1 -->
+    <div class="row">
+      <!-- Sender -->
+      <div class="col">
+        <label>Sender Details</label>
+        <textarea id="sender" rows="5"></textarea>
+      </div>
+
+      <!-- Client -->
+      <div class="col">
+        <label>Client Details</label>
+        <textarea id="client" rows="5"></textarea>
+      </div>
+    </div>
+
+    <!-- ITEMS TABLE -->
+    <div class="items">
+      <label>Invoice Items</label>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:50%">Item</th>
+            <th style="width:15%">Qty</th>
+            <th style="width:15%">Price</th>
+            <th style="width:20%">Total</th>
+          </tr>
+        </thead>
+        <tbody id="itemRows">
+          <tr>
+            <td><input type="text" class="itemName"></td>
+            <td><input type="number" value="1" class="itemQty"></td>
+            <td><input type="number" value="0" class="itemPrice"></td>
+            <td class="rowTotal">0</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn ghost small" onclick="addRow()">+ Add Item</button>
+    </div>
+
+    <!-- TOTAL SECTION -->
+    <div class="calc-box">
+      <p>Subtotal:</p>
+      <h3 id="subtotalVal">0</h3>
+      <p>Tax (Optional):</p>
+      <input type="number" id="taxVal" value="0">
+      <p>Final Total:</p>
+      <h3 id="finalTotal">0</h3>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="btn" onclick="generateNormalPDF()">Generate PDF</button>
+      <button class="btn ghost">Email Invoice</button>
+      <button class="btn ghost">Save to Dashboard</button>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="script.js"></script>
+<script>
+  // Live Price (simple)
+  fetch('/api/getCryptoPrice')
+    .then(r=>r.json())
+    .then(data=>{
+      document.getElementById("btcTicker").innerText = "BTC: $" + data.btc;
+      document.getElementById("ethTicker").innerText = "ETH: $" + data.eth;
+    });
+
+  // Recalc items
+  function recalc(){
+    let subtotal=0;
+    document.querySelectorAll("#itemRows tr").forEach(row=>{
+      let qty = parseFloat(row.querySelector(".itemQty").value || 0);
+      let price = parseFloat(row.querySelector(".itemPrice").value || 0);
+      let total = qty * price;
+      row.querySelector(".rowTotal").innerText = total.toFixed(2);
+      subtotal += total;
+    });
+    document.getElementById("subtotalVal").innerText = subtotal.toFixed(2);
+    let tax = parseFloat(document.getElementById("taxVal").value || 0);
+    document.getElementById("finalTotal").innerText = (subtotal + tax).toFixed(2);
+  }
+
+  document.addEventListener("input", recalc);
+
+  function addRow(){
+    let row = `
+    <tr>
+      <td><input type="text" class="itemName"></td>
+      <td><input type="number" value="1" class="itemQty"></td>
+      <td><input type="number" value="0" class="itemPrice"></td>
+      <td class="rowTotal">0</td>
+    </tr>`;
+    document.getElementById("itemRows").insertAdjacentHTML("beforeend", row);
+  }
+
+  // PDF
+  function generateNormalPDF(){
+    let payload = {
+      sender: document.getElementById("sender").value,
+      client: document.getElementById("client").value,
+      items: [],
+      subtotal: document.getElementById("subtotalVal").innerText,
+      tax: document.getElementById("taxVal").value,
+      total: document.getElementById("finalTotal").innerText
+    };
+
+    document.querySelectorAll("#itemRows tr").forEach(tr=>{
+      payload.items.push({
+        name: tr.querySelector(".itemName").value,
+        qty: tr.querySelector(".itemQty").value,
+        price: tr.querySelector(".itemPrice").value
+      });
+    });
+
+    fetch("/api/createInvoice",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify(payload)
+    })
+    .then(r=>r.blob())
+    .then(file=>{
+      let url = URL.createObjectURL(file);
+      let a = document.createElement("a");
+      a.href = url;
+      a.download = "invoice.pdf";
+      a.click();
+    });
+  }
+</script>
+
+</body>
+</html>
