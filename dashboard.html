@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — CryptoInvoicePro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">CryptoInvoicePro</a>
+      <nav>
+        <a href="invoice.html">Create Invoice</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="learn-crypto.html">Learn Crypto</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page">
+    <h2>Dashboard</h2>
+
+    <section id="summary">
+      <div class="card">
+        <h4>Total Invoices</h4>
+        <p id="totalInvoices">0</p>
+      </div>
+      <div class="card">
+        <h4>Paid</h4>
+        <p id="paidInvoices">0</p>
+      </div>
+      <div class="card">
+        <h4>Unpaid</h4>
+        <p id="unpaidInvoices">0</p>
+      </div>
+    </section>
+
+    <section id="invoiceList">
+      <h3>Your Invoices</h3>
+      <table id="listTable">
+        <thead><tr><th>#</th><th>Client</th><th>Total</th><th>Crypto</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="listBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© CryptoInvoicePro</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
