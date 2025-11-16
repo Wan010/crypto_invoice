@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Invoice Generator | CryptoInvoicePro</title>
+
+  <link rel="stylesheet" href="neon-theme.css">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div>
+    <div class="brand">
+      <img src="assets/logos/logo.png" class="logo" alt="">
+      <h1>CryptoInvoicePro</h1>
+    </div>
+    <nav class="nav">
+      <a class="nav-link" href="index.html"><span class="icon">🏠</span>Home</a>
+      <a class="nav-link" href="invoice-normal.html"><span class="icon">🧾</span>Normal Invoice</a>
+      <a class="nav-link active" href="invoice-crypto.html"><span class="icon">💠</span>Crypto Invoice</a>
+      <a class="nav-link" href="dashboard.html"><span class="icon">📊</span>Dashboard</a>
+      <a class="nav-link" href="learn-crypto.html"><span class="icon">⚡</span>Learn Crypto</a>
+      <a class="nav-link" href="profile.html"><span class="icon">👤</span>Profile</a>
+    </nav>
+  </div>
+  <footer class="foot small">&copy; 2025 CryptoInvoicePro</footer>
+</aside>
+
+<!-- Main -->
+<main class="main">
+
+  <div class="topbar">
+    <div class="top-left">
+      <button class="icon-btn">🌙</button>
+      <div class="ticker">
+        <span class="ticker-item" id="btcTicker">BTC: ...</span>
+        <span class="ticker-item" id="ethTicker">ETH: ...</span>
+        <span class="ticker-item" id="usdtTicker">USDT: $1.00</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-family:'Space Grotesk';margin-top:0">Crypto Invoice Generator</h2>
+  <p class="muted">Create invoices payable in BTC, ETH or USDT with QR code</p>
+
+  <div class="page">
+
+    <!-- Row 1 -->
+    <div class="row">
+      <div class="col">
+        <label>Sender (Your Business)</label>
+        <textarea id="sender" rows="5"></textarea>
+      </div>
+
+      <div class="col">
+        <label>Client</label>
+        <textarea id="client" rows="5"></textarea>
+      </div>
+    </div>
+
+    <!-- Items -->
+    <div class="items">
+      <label>Items</label>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:50%">Item</th>
+            <th style="width:15%">Qty</th>
+            <th style="width:15%">Price (USD)</th>
+            <th style="width:20%">Total</th>
+          </tr>
+        </thead>
+        <tbody id="itemRows">
+          <tr>
+            <td><input type="text" class="itemName"></td>
+            <td><input type="number" value="1" class="itemQty"></td>
+            <td><input type="number" value="0" class="itemPrice"></td>
+            <td class="rowTotal">0</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="btn ghost small" onclick="addRow()">+ Add Item</button>
+    </div>
+
+    <!-- Totals -->
+    <div class="calc-box">
+      <p>Subtotal (USD):</p>
+      <h3 id="subtotalVal">0</h3>
+
+      <p>Tax (USD):</p>
+      <input type="number" id="taxVal" value="0">
+
+      <p>Final Total (USD):</p>
+      <h3 id="finalTotal">0</h3>
+    </div>
+
+    <!-- Crypto Select -->
+    <div class="page" style="margin-top:14px">
+      <label>Select Crypto</label>
+      <select id="cryptoSelect">
+        <option value="BTC">BTC (Bitcoin)</option>
+        <option value="ETH">ETH (Ethereum)</option>
+        <option value="USDT">USDT (Tether)</option>
+      </select>
+
+      <label style="margin-top:10px">Your Wallet Address</label>
+      <input type="text" id="walletAddress" placeholder="Enter your BTC/ETH/USDT address">
+
+      <div class="calc-box">
+        <p>Crypto Price:</p>
+        <h3 id="cryptoPrice">Loading...</h3>
+
+        <p>Invoice Total in Crypto:</p>
+        <h3 id="cryptoTotal">0</h3>
+      </div>
+
+      <!-- QR -->
+      <label>Payment QR</label>
+      <div id="qrArea">
+        <div id="qrCode"></div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn" onclick="generateCryptoPDF()">Generate Crypto PDF</button>
+      <button class="btn ghost">Email Invoice</button>
+      <button class="btn ghost">Save to Dashboard</button>
+    </div>
+
+  </div>
+</main>
+
+<!-- Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<script src="script.js"></script>
+
+<script>
+/* 1) Get Prices */
+fetch('/api/getCryptoPrice')
+  .then(r=>r.json())
+  .then(data=>{
+    window.cryptoPrices = data;
+    document.getElementById("btcTicker").innerText = "BTC: $" + data.btc;
+    document.getElementById("ethTicker").innerText = "ETH: $" + data.eth;
+    document.getElementById("cryptoPrice").innerText = "$" + data.btc;
+  });
+
+/* 2) Calculation */
+function recalc(){
+  let subtotal=0;
+  document.querySelectorAll("#itemRows tr").forEach(row=>{
+    let qty = parseFloat(row.querySelector(".itemQty").value||0);
+    let price = parseFloat(row.querySelector(".itemPrice").value||0);
+    let total = qty * price;
+    row.querySelector(".rowTotal").innerText = total.toFixed(2);
+    subtotal += total;
+  });
+  document.getElementById("subtotalVal").innerText = subtotal.toFixed(2);
+
+  let tax = parseFloat(document.getElementById("taxVal").value||0);
+  let usdTotal = subtotal + tax;
+  document.getElementById("finalTotal").innerText = usdTotal.toFixed(2);
+
+  convertCrypto();
+}
+document.addEventListener("input", recalc);
+
+/* 3) Convert USD → Crypto */
+function convertCrypto(){
+  if(!window.cryptoPrices) return;
+
+  let usd = parseFloat(document.getElementById("finalTotal").innerText);
+  let selected = document.getElementById("cryptoSelect").value;
+
+  let p = selected==="BTC" ? window.cryptoPrices.btc :
+          selected==="ETH" ? window.cryptoPrices.eth :
+          1;
+
+  let crypto = usd / p;
+
+  document.getElementById("cryptoPrice").innerText = "$" + p;
+  document.getElementById("cryptoTotal").innerText = crypto.toFixed(8);
+
+  updateQR(crypto);
+}
+
+/* 4) QR Generator */
+let qr = new QRCode(document.getElementById("qrCode"), {
+  text:"data",
+  width:140,
+  height:140,
+  colorDark:"#00e0d1",
+  colorLight:"#070916"
+});
+
+function updateQR(amount){
+  let coin = document.getElementById("cryptoSelect").value;
+  let addr = document.getElementById("walletAddress").value;
+
+  if(!addr) return;
+
+  let uri = `${coin.toLowerCase()}:${addr}?amount=${amount}`;
+  qr.makeCode(uri);
+}
+
+/* 5) Add Row */
+function addRow(){
+  let html = `
+  <tr>
+    <td><input type="text" class="itemName"></td>
+    <td><input type="number" value="1" class="itemQty"></td>
+    <td><input type="number" value="0" class="itemPrice"></td>
+    <td class="rowTotal">0</td>
+  </tr>`;
+  document.getElementById("itemRows").insertAdjacentHTML("beforeend", html);
+}
+
+/* 6) PDF */
+function generateCryptoPDF(){
+  let payload = {
+    sender: document.getElementById("sender").value,
+    client: document.getElementById("client").value,
+    wallet: document.getElementById("walletAddress").value,
+    crypto: document.getElementById("cryptoSelect").value,
+    cryptoTotal: document.getElementById("cryptoTotal").innerText,
+    price: document.getElementById("cryptoPrice").innerText,
+    usdTotal: document.getElementById("finalTotal").innerText,
+    items: []
+  };
+
+  document.querySelectorAll("#itemRows tr").forEach(tr=>{
+    payload.items.push({
+      name: tr.querySelector(".itemName").value,
+      qty: tr.querySelector(".itemQty").value,
+      price: tr.querySelector(".itemPrice").value
+    });
+  });
+
+  fetch("/api/createCryptoInvoice",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify(payload)
+  })
+  .then(r=>r.blob())
+  .then(file=>{
+    let url = URL.createObjectURL(file);
+    let a = document.createElement("a");
+    a.href=url;
+    a.download="crypto-invoice.pdf";
+    a.click();
+  });
+}
+</script>
+
+</body>
+</html>
