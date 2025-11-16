@@ -1,0 +1,14 @@
+{
+  "name": "crypto-invoice-saas",
+  "version": "1.0.0",
+  "description": "CryptoInvoicePro serverless APIs",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "pdfkit": "^0.13.0",
+    "qrcode": "^1.5.1"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
