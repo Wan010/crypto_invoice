@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile — CryptoInvoicePro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">CryptoInvoicePro</a>
+      <nav>
+        <a href="invoice.html">Create Invoice</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="learn-crypto.html">Learn Crypto</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page">
+    <h2>Your Profile</h2>
+    <label>Business Name</label>
+    <input id="profileBusiness" placeholder="Your business name" />
+    <label>Primary Crypto Wallet (ex: ETH address)</label>
+    <input id="profileWallet" placeholder="0x..." />
+    <button id="saveProfile" class="btn">Save Profile</button>
+
+    <section>
+      <h3>Saved Profile</h3>
+      <pre id="profilePreview"></pre>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© CryptoInvoicePro</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
