@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CryptoInvoicePro — Crypto Friendly Invoicing</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">CryptoInvoicePro</a>
+      <nav>
+        <a href="invoice.html">Create Invoice</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="learn-crypto.html">Learn Crypto</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="hero container">
+    <h1>Create beautiful invoices. Accept crypto payments. Learn crypto.</h1>
+    <p>Fast, global and low-fee invoicing with crypto payment instructions and QR codes — SaaS-style, no-code friendly.</p>
+    <div class="cta">
+      <a class="btn" href="invoice.html">Create Invoice</a>
+      <a class="btn ghost" href="dashboard.html">View Dashboard</a>
+    </div>
+
+    <section class="features">
+      <article><h3>Invoice Templates</h3><p>Multiple templates and PDF export (client-side).</p></article>
+      <article><h3>Crypto Payments</h3><p>Auto-convert fiat → crypto using live prices.</p></article>
+      <article><h3>Payment Tracking</h3><p>QR codes and manual/auto check options (extendable).</p></article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> CryptoInvoicePro — Built for crypto-savvy businesses.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>document.getElementById('year').innerText = new Date().getFullYear();</script>
+</body>
+</html>
