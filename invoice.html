@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create Invoice — CryptoInvoicePro</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- jsPDF + html2canvas from CDN for client-side PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">CryptoInvoicePro</a>
+      <nav>
+        <a href="invoice.html">Create Invoice</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="learn-crypto.html">Learn Crypto</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page">
+    <h2>Create Invoice</h2>
+
+    <section id="invoice-form">
+      <div class="row">
+        <div class="col">
+          <label>From (Your Business)</label>
+          <input id="fromName" placeholder="Business name" />
+          <input id="fromAddress" placeholder="Address" />
+        </div>
+        <div class="col">
+          <label>To (Client)</label>
+          <input id="clientName" placeholder="Client name" />
+          <input id="clientEmail" placeholder="Client email" />
+        </div>
+      </div>
+
+      <div class="items">
+        <h4>Line Items</h4>
+        <table id="itemsTable">
+          <thead><tr><th>Description</th><th>Qty</th><th>Price</th><th>Subtotal</th><th></th></tr></thead>
+          <tbody id="itemsBody"></tbody>
+        </table>
+        <button id="addItemBtn" class="btn small">Add Item</button>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label>Tax (%)</label>
+          <input id="tax" type="number" value="0" />
+        </div>
+        <div class="col">
+          <label>Discount (fixed)</label>
+          <input id="discount" type="number" value="0" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label>Currency (fiat)</label>
+          <select id="fiat">
+            <option value="usd">USD</option>
+            <option value="inr">INR</option>
+            <option value="eur">EUR</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Pay in Crypto</label>
+          <select id="crypto">
+            <option value="bitcoin">BTC</option>
+            <option value="ethereum">ETH</option>
+            <option value="tether">USDT</option>
+            <option value="usd-coin">USDC</option>
+            <option value="solana">SOL</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="calc-box">
+        <p>Subtotal: <span id="subtotalText">0.00</span></p>
+        <p>Tax: <span id="taxText">0.00</span></p>
+        <p>Discount: <span id="discountText">0.00</span></p>
+        <h3>Total (fiat): <span id="totalText">0.00</span></h3>
+        <p>Converted to <span id="cryptoLabel">BTC</span>: <strong id="cryptoAmount">—</strong></p>
+        <div id="qrArea"></div>
+      </div>
+
+      <div class="actions">
+        <button id="saveInvoice" class="btn">Save Invoice</button>
+        <button id="downloadPdf" class="btn ghost">Download PDF</button>
+        <button id="shareLink" class="btn">Generate Share Link</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© CryptoInvoicePro</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
