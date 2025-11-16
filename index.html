@@ -1,150 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CryptoInvoicePro — Neon Crypto Invoicing</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-
-  <!-- Theme CSS (neon-theme.css will contain the neon styling) -->
-  <link rel="stylesheet" href="neon-theme.css" />
-
-  <!-- Favicons (optional) -->
-  <meta name="theme-color" content="#071229" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Invoice Hub</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="brand">
-      <img src="assets/logos/logo-light.png" alt="logo" class="logo" />
-      <h1>CryptoInvoicePro</h1>
-    </div>
 
+<body class="bg-dark">
+
+    <!-- NAVBAR -->
     <nav class="nav">
-      <a class="nav-link active" href="index.html"><span class="icon">🏠</span> Home</a>
-      <a class="nav-link" href="invoice-normal.html"><span class="icon">🧾</span> Normal Invoice</a>
-      <a class="nav-link" href="invoice-crypto.html"><span class="icon">🔗</span> Crypto Invoice</a>
-      <a class="nav-link" href="dashboard.html"><span class="icon">📊</span> Dashboard</a>
-      <a class="nav-link" href="learn-crypto.html"><span class="icon">📚</span> Learn Crypto</a>
-      <a class="nav-link" href="profile.html"><span class="icon">⚙️</span> Profile</a>
+        <div class="nav-left">
+            <img src="/assets/logo.png" alt="Logo" class="logo">
+            <span class="logo-text">Crypto Invoice Hub</span>
+        </div>
+
+        <div class="nav-right">
+            <a href="/" class="nav-link">Home</a>
+            <a href="invoice.html" class="nav-link">Create Invoice</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="#learn" class="nav-link">Learn Crypto</a>
+        </div>
     </nav>
 
-    <div class="sidebar-foot">
-      <small>© <span id="year"></span> CryptoInvoicePro</small>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <div class="top-left">
-        <button id="sidebarToggle" class="icon-btn">☰</button>
-        <div class="ticker" id="priceTicker">
-          <!-- Filled by script.js -->
-          <span class="ticker-item">Loading prices…</span>
-        </div>
-      </div>
-
-      <div class="top-right">
-        <input id="searchInput" class="search" placeholder="Search invoices, clients..." />
-        <button class="btn-outline" id="loginBtn">Login</button>
-      </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero neon-hero">
-      <div class="hero-content">
-        <h2 class="hero-title">Beautiful invoices. Neon crypto style.</h2>
-        <p class="hero-sub">Create invoices, accept crypto, and track payments — all in a premium Web3 UI. Two modes: Normal payments and Crypto payments.</p>
-
-        <div class="hero-ctas">
-          <a class="btn-glow primary" href="invoice-crypto.html">Create Crypto Invoice</a>
-          <a class="btn-glow ghost" href="invoice-normal.html">Create Normal Invoice</a>
-          <a class="btn-glow outline" href="dashboard.html">Go to Dashboard</a>
-        </div>
-      </div>
-
-      <div class="hero-illustration">
-        <!-- simple neon card mock -->
-        <div class="card neon-card">
-          <div class="card-header">
-            <img src="assets/icons/btc.svg" alt="btc" class="coin" />
-            <div>
-              <div class="small muted">Invoice Preview</div>
-              <div class="big">INV-0001</div>
-            </div>
-          </div>
-
-          <div class="card-body">
-            <div class="row">
-              <div><strong>Client:</strong> ACME Corp</div>
-              <div><strong>Due:</strong> 2025-12-01</div>
-            </div>
-            <hr class="sep" />
-            <div class="row items">
-              <div>Design Work</div>
-              <div class="price">0.0123 BTC</div>
-            </div>
-            <div class="row total">
-              <div>Total</div>
-              <div class="price">0.0123 BTC</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- HERO SECTION -->
+    <section class="hero neon-card">
+        <h1 class="title neon-text">Smart Invoicing for Modern Businesses</h1>
+        <p class="subtitle">Accept normal payments + crypto payments seamlessly with smart tools.</p>
+        <a href="invoice.html" class="cta-btn neon-btn">Create Invoice</a>
     </section>
 
-    <!-- FEATURES -->
-    <section class="features container">
-      <article class="feature-card">
-        <h3>Dual Invoice Flows</h3>
-        <p>Run both Normal (bank/UPI/PayPal) and Crypto invoice workflows — your client chooses.</p>
-      </article>
+    <!-- LIVE PRICE WIDGET -->
+    <section class="price-section neon-card">
+        <h2 class="section-title neon-text">Live Crypto Prices</h2>
+        <div class="price-grid">
 
-      <article class="feature-card">
-        <h3>Live Crypto Prices</h3>
-        <p>Automatic conversion using secure serverless endpoint — prices update frequently.</p>
-      </article>
+            <div class="price-box neon-border">
+                <h3>BTC</h3>
+                <p id="btc-price" class="price-value">Loading...</p>
+            </div>
 
-      <article class="feature-card">
-        <h3>Server-side PDFs</h3>
-        <p>High-quality neon-styled PDFs generated server-side (PDFKit) for consistent printing and email.</p>
-      </article>
+            <div class="price-box neon-border">
+                <h3>ETH</h3>
+                <p id="eth-price" class="price-value">Loading...</p>
+            </div>
 
-      <article class="feature-card">
-        <h3>Secure & Extendable</h3>
-        <p>Serverless APIs run in Vercel, no private keys stored, easy to replace localStorage with Supabase.</p>
-      </article>
+            <div class="price-box neon-border">
+                <h3>SOL</h3>
+                <p id="sol-price" class="price-value">Loading...</p>
+            </div>
+
+            <div class="price-box neon-border">
+                <h3>BNB</h3>
+                <p id="bnb-price" class="price-value">Loading...</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LEARN CRYPTO -->
+    <section id="learn" class="learn-section neon-card">
+        <h2 class="section-title neon-text">Learn Crypto (Easy Examples)</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-box neon-border">
+                <h3>1. What is Crypto?</h3>
+                <p>Crypto is digital money stored in a wallet. Example: If 1 BTC = $40,000, buying $100 gives you 0.0025 BTC.</p>
+            </div>
+
+            <div class="learn-box neon-border">
+                <h3>2. What is a Wallet?</h3>
+                <p>A wallet is like a banking app. Example: Your wallet shows 0.05 BTC and 2.3 SOL.</p>
+            </div>
+
+            <div class="learn-box neon-border">
+                <h3>3. What is Blockchain?</h3>
+                <p>A public notebook of transactions. Example: Sending 0.01 BTC gives a trackable Transaction ID.</p>
+            </div>
+
+            <div class="learn-box neon-border">
+                <h3>4. What are Gas Fees?</h3>
+                <p>Small fees to process transactions. Example: ETH = $2, Solana = $0.001.</p>
+            </div>
+
+            <div class="learn-box neon-border">
+                <h3>5. What Are Stablecoins?</h3>
+                <p>Coins that never change value. Example: 1 USDT = 1 USD.</p>
+            </div>
+
+            <div class="learn-box neon-border">
+                <h3>6. Why Businesses Use Crypto?</h3>
+                <ul>
+                    <li>Fast (5–10 sec)</li>
+                    <li>Lower fees</li>
+                    <li>International payments</li>
+                </ul>
+                <p>Example: USDT invoice payments don’t fluctuate.</p>
+            </div>
+
+        </div>
+
+        <p class="coming-soon">More tutorials + videos coming soon.</p>
     </section>
 
     <!-- FOOTER -->
-    <footer class="site-footer">
-      <div class="container foot-grid">
-        <div>
-          <strong>CryptoInvoicePro</strong>
-          <p class="muted">Premium neon invoicing for crypto-aware businesses.</p>
-        </div>
-        <div>
-          <strong>Resources</strong>
-          <ul>
-            <li><a href="learn-crypto.html">Learn Crypto</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-          </ul>
-        </div>
-        <div>
-          <strong>Contact</strong>
-          <p class="muted">support@cryptoinvoicepro.example</p>
-        </div>
-      </div>
+    <footer class="footer">
+        <p>© 2025 Crypto Invoice Hub. All rights reserved.</p>
     </footer>
-  </main>
 
-  <!-- PAGE SCRIPTS -->
-  <script src="script.js"></script>
-  <script>document.getElementById('year').innerText = new Date().getFullYear();</script>
+    <script src="script.js"></script>
 </body>
 </html>
