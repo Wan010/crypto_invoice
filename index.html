@@ -3,43 +3,147 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CryptoInvoicePro — Crypto Friendly Invoicing</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>CryptoInvoicePro — Neon Crypto Invoicing</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Theme CSS (neon-theme.css will contain the neon styling) -->
+  <link rel="stylesheet" href="neon-theme.css" />
+
+  <!-- Favicons (optional) -->
+  <meta name="theme-color" content="#071229" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="index.html">CryptoInvoicePro</a>
-      <nav>
-        <a href="invoice.html">Create Invoice</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="learn-crypto.html">Learn Crypto</a>
-        <a href="profile.html">Profile</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="hero container">
-    <h1>Create beautiful invoices. Accept crypto payments. Learn crypto.</h1>
-    <p>Fast, global and low-fee invoicing with crypto payment instructions and QR codes — SaaS-style, no-code friendly.</p>
-    <div class="cta">
-      <a class="btn" href="invoice.html">Create Invoice</a>
-      <a class="btn ghost" href="dashboard.html">View Dashboard</a>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="assets/logos/logo-light.png" alt="logo" class="logo" />
+      <h1>CryptoInvoicePro</h1>
     </div>
 
-    <section class="features">
-      <article><h3>Invoice Templates</h3><p>Multiple templates and PDF export (client-side).</p></article>
-      <article><h3>Crypto Payments</h3><p>Auto-convert fiat → crypto using live prices.</p></article>
-      <article><h3>Payment Tracking</h3><p>QR codes and manual/auto check options (extendable).</p></article>
+    <nav class="nav">
+      <a class="nav-link active" href="index.html"><span class="icon">🏠</span> Home</a>
+      <a class="nav-link" href="invoice-normal.html"><span class="icon">🧾</span> Normal Invoice</a>
+      <a class="nav-link" href="invoice-crypto.html"><span class="icon">🔗</span> Crypto Invoice</a>
+      <a class="nav-link" href="dashboard.html"><span class="icon">📊</span> Dashboard</a>
+      <a class="nav-link" href="learn-crypto.html"><span class="icon">📚</span> Learn Crypto</a>
+      <a class="nav-link" href="profile.html"><span class="icon">⚙️</span> Profile</a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <small>© <span id="year"></span> CryptoInvoicePro</small>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="top-left">
+        <button id="sidebarToggle" class="icon-btn">☰</button>
+        <div class="ticker" id="priceTicker">
+          <!-- Filled by script.js -->
+          <span class="ticker-item">Loading prices…</span>
+        </div>
+      </div>
+
+      <div class="top-right">
+        <input id="searchInput" class="search" placeholder="Search invoices, clients..." />
+        <button class="btn-outline" id="loginBtn">Login</button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero neon-hero">
+      <div class="hero-content">
+        <h2 class="hero-title">Beautiful invoices. Neon crypto style.</h2>
+        <p class="hero-sub">Create invoices, accept crypto, and track payments — all in a premium Web3 UI. Two modes: Normal payments and Crypto payments.</p>
+
+        <div class="hero-ctas">
+          <a class="btn-glow primary" href="invoice-crypto.html">Create Crypto Invoice</a>
+          <a class="btn-glow ghost" href="invoice-normal.html">Create Normal Invoice</a>
+          <a class="btn-glow outline" href="dashboard.html">Go to Dashboard</a>
+        </div>
+      </div>
+
+      <div class="hero-illustration">
+        <!-- simple neon card mock -->
+        <div class="card neon-card">
+          <div class="card-header">
+            <img src="assets/icons/btc.svg" alt="btc" class="coin" />
+            <div>
+              <div class="small muted">Invoice Preview</div>
+              <div class="big">INV-0001</div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div><strong>Client:</strong> ACME Corp</div>
+              <div><strong>Due:</strong> 2025-12-01</div>
+            </div>
+            <hr class="sep" />
+            <div class="row items">
+              <div>Design Work</div>
+              <div class="price">0.0123 BTC</div>
+            </div>
+            <div class="row total">
+              <div>Total</div>
+              <div class="price">0.0123 BTC</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+
+    <!-- FEATURES -->
+    <section class="features container">
+      <article class="feature-card">
+        <h3>Dual Invoice Flows</h3>
+        <p>Run both Normal (bank/UPI/PayPal) and Crypto invoice workflows — your client chooses.</p>
+      </article>
+
+      <article class="feature-card">
+        <h3>Live Crypto Prices</h3>
+        <p>Automatic conversion using secure serverless endpoint — prices update frequently.</p>
+      </article>
+
+      <article class="feature-card">
+        <h3>Server-side PDFs</h3>
+        <p>High-quality neon-styled PDFs generated server-side (PDFKit) for consistent printing and email.</p>
+      </article>
+
+      <article class="feature-card">
+        <h3>Secure & Extendable</h3>
+        <p>Serverless APIs run in Vercel, no private keys stored, easy to replace localStorage with Supabase.</p>
+      </article>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container foot-grid">
+        <div>
+          <strong>CryptoInvoicePro</strong>
+          <p class="muted">Premium neon invoicing for crypto-aware businesses.</p>
+        </div>
+        <div>
+          <strong>Resources</strong>
+          <ul>
+            <li><a href="learn-crypto.html">Learn Crypto</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <strong>Contact</strong>
+          <p class="muted">support@cryptoinvoicepro.example</p>
+        </div>
+      </div>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> CryptoInvoicePro — Built for crypto-savvy businesses.</p>
-    </div>
-  </footer>
-
+  <!-- PAGE SCRIPTS -->
   <script src="script.js"></script>
   <script>document.getElementById('year').innerText = new Date().getFullYear();</script>
 </body>
