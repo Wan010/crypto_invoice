@@ -1,0 +1,161 @@
+/* Neon theme for CryptoInvoicePro
+   Dark background, glassmorphism cards, neon glows, responsive layout
+   Save this file as neon-theme.css in the project root. */
+
+:root{
+  --bg-0: #070916;
+  --bg-1: #0a1222;
+  --card: rgba(18, 23, 38, 0.6);
+  --glass: rgba(255,255,255,0.04);
+  --muted: #9aa6b2;
+  --text: #e6eef8;
+  --accent-a: #7c5cff;    /* purple */
+  --accent-b: #00e0d1;    /* cyan */
+  --accent-c: #ff8a00;    /* orange (btc) */
+  --accent-d: #2ee06a;    /* green (usdt) */
+  --glow-1: 0 6px 28px rgba(124,92,255,0.12);
+  --glass-blur: 8px;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --transition: 220ms cubic-bezier(.2,.9,.2,1);
+  font-synthesis: none;
+}
+
+/* Basic page layout */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+body{
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.06), transparent 6%),
+              radial-gradient(900px 500px at 90% 90%, rgba(0,224,209,0.04), transparent 8%),
+              linear-gradient(180deg,var(--bg-0) 0%, var(--bg-1) 100%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+}
+
+/* Container sizes */
+.container{max-width:1120px;margin:0 auto;padding:22px}
+
+/* Sidebar */
+.sidebar{
+  position:fixed;left:16px;top:16px;bottom:16px;width:240px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:20px;padding:18px;
+  box-shadow: var(--glow-1);
+  backdrop-filter: blur(var(--glass-blur));
+  border:1px solid rgba(255,255,255,0.03);
+  display:flex;flex-direction:column;justify-content:space-between;
+  z-index:40;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{width:40px;height:40px;object-fit:contain}
+.brand h1{font-family:"Space Grotesk",sans-serif;font-size:1.05rem;margin:0;color:var(--accent-a)}
+.nav{margin-top:18px;display:flex;flex-direction:column;gap:6px}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;color:var(--muted);text-decoration:none;
+  transition:all var(--transition);font-weight:600;font-size:0.95rem;
+}
+.nav-link .icon{font-size:1.05rem;line-height:1}
+.nav-link:hover{transform:translateX(6px);color:var(--text)}
+.nav-link.active{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#021;padding-left:12px;box-shadow:0 8px 30px rgba(124,92,255,0.12);}
+
+/* Main area */
+.main{margin-left:280px;padding:26px 34px 80px 34px;min-height:100vh}
+
+/* Topbar */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.top-left{display:flex;align-items:center;gap:12px}
+.icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:10px;border-radius:10px;cursor:pointer}
+.ticker{display:flex;gap:12px;align-items:center;padding:6px 10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02)}
+.ticker-item{font-family:"JetBrains Mono", monospace;font-size:0.95rem;color:var(--accent-b);}
+
+/* Hero */
+.hero{display:flex;gap:26px;align-items:center;justify-content:space-between;padding:28px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 40px rgba(2,8,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+.hero-content{max-width:62%}
+.hero-title{font-family:"Space Grotesk",sans-serif;font-size:1.8rem;margin:0 0 8px;color:linear-gradient(90deg,var(--accent-a),var(--accent-b))}
+.hero-sub{color:var(--muted);margin:0 0 16px}
+.hero-ctas{display:flex;gap:10px}
+.btn-glow{padding:10px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:700;transition:all var(--transition);box-shadow:none}
+.btn-glow.primary{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#031}
+.btn-glow.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
+.btn-glow.outline{background:transparent;color:var(--accent-b);border:1px dashed rgba(124,92,255,0.08)}
+
+.btn-glow.primary:hover{transform:translateY(-4px);box-shadow:0 18px 60px rgba(124,92,255,0.12)}
+.btn-glow.ghost:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.4)}
+
+/* Neon card mock */
+.neon-card{width:320px;border-radius:14px;padding:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 40px rgba(0,0,0,0.5)}
+.neon-card .card-header{display:flex;gap:10px;align-items:center}
+.neon-card .coin{width:36px;height:36px}
+.neon-card .big{font-family:"Space Grotesk";font-size:1.15rem;color:var(--accent-b);font-weight:700}
+.neon-card .price{font-family:"JetBrains Mono",monospace;color:var(--accent-c);font-weight:700}
+
+/* Features grid */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px}
+.feature-card{padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02);box-shadow:var(--glow-1)}
+.feature-card h3{margin:0 0 6px}
+.feature-card p{margin:0;color:var(--muted)}
+
+/* Site footer */
+.site-footer{margin-top:30px;padding:22px;border-radius:12px;background:transparent;color:var(--muted)}
+.site-footer a{color:var(--muted);text-decoration:none}
+.site-footer .foot-grid{display:flex;gap:24px;align-items:flex-start;justify-content:space-between}
+
+/* Page card (used for invoice pages) */
+.page{padding:20px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border-radius:14px;margin-top:18px;border:1px solid rgba(255,255,255,0.02)}
+.row{display:flex;gap:12px;align-items:flex-start}
+.col{flex:1}
+label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:6px}
+input[type="text"],input[type="number"],select,textarea{
+  background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:10px;color:var(--text);
+  outline:none;transition:all var(--transition);width:100%;
+}
+input:focus,select:focus,textarea:focus{box-shadow:0 6px 28px rgba(124,92,255,0.06);border-color:rgba(124,92,255,0.18)}
+
+/* Items table */
+.items table{width:100%;border-collapse:collapse;margin-top:8px}
+.items th,.items td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02);text-align:left}
+.items input{width:100%;background:transparent;border:0;padding:6px;color:var(--text)}
+.items tr:hover td{background:linear-gradient(90deg, rgba(124,92,255,0.02), rgba(0,224,209,0.01));}
+
+/* calc box */
+.calc-box{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02);margin-top:12px}
+.calc-box p{margin:6px 0;color:var(--muted)}
+.calc-box h3{margin:6px 0 0;color:var(--text)}
+
+/* QR area */
+#qrArea{display:flex;align-items:center;gap:12px}
+#qrArea img{width:140px;height:140px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+
+/* Buttons & actions */
+.actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 12px;border-radius:10px;border:0;cursor:pointer;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#021;font-weight:700;transition:all var(--transition)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
+.btn.small{padding:6px 10px}
+
+/* Dashboard cards */
+.card{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02);box-shadow:var(--glow-1)}
+#listTable{width:100%;border-collapse:collapse;margin-top:8px}
+#listTable th,#listTable td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02)}
+
+/* small utilities */
+.small{font-size:0.85rem;color:var(--muted)}
+.muted{color:var(--muted)}
+
+/* responsive */
+@media (max-width:1000px){
+  .sidebar{position:relative;width:auto;display:flex;flex-direction:row;align-items:center;gap:12px;padding:10px;height:auto;border-radius:12px;left:10px;right:10px}
+  .main{margin-left:0;padding:14px}
+  .hero{flex-direction:column;align-items:stretch}
+  .neon-card{width:100%}
+  .site-footer .foot-grid{flex-direction:column;gap:12px}
+}
+
+/* subtle animations */
+@keyframes floaty {
+  0%{transform:translateY(0px)}
+  50%{transform:translateY(-6px)}
+  100%{transform:translateY(0px)}
+}
+.neon-card{animation:floaty 6s ease-in-out infinite}
